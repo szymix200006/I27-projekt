@@ -1,0 +1,14 @@
+.autoInputContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1;
+    position: absolute;
+}
+
+.listField {
+    padding: 5px;
+    border-bottom: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}

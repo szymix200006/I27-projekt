@@ -1,0 +1,35 @@
+.fillResultsContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-image: url('https://cdn.dribbble.com/users/3132775/screenshots/17400615/media/434af7e23b352dfa5d0cc64962fceb42.gif');
+    background-size: cover;
+}
+
+.fillResultsInfo {
+    margin: 40px;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 5px;
+    padding: 10px;
+    width: 50%;
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fillResultsText {
+    font-size: 3em;
+    color: black;
+}
+
+.loaderWrapper {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

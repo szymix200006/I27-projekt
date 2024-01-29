@@ -1,0 +1,16 @@
+.flightContainer {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: azure;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.flightInfo {
+    border: 1px solid black;
+    padding: 15px;
+    width: 100%;
+    font-size: .9em;
+}

@@ -13,8 +13,6 @@ public interface AirportRepository extends JpaRepository<Airport, Long> {
      @Query(value = "SELECT COUNT(*) FROM airport", nativeQuery = true)
      int getAirportSize();
 
-    // @Query(value = "SELECT name FROM airport WHERE name LIKE '?1%'", nativeQuery = true)
-   //  List<AirportModel> findByPart(String part);
     List<Airport> findByNameStartsWithIgnoreCase(String name);
 
     Airport findByName(String name);

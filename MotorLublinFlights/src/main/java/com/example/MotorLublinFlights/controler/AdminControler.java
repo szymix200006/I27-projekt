@@ -37,16 +37,6 @@ public class AdminControler {
 
     @PostMapping("/flight")
     public ResponseEntity<?> saveFlights(@Valid @RequestBody SaveRequest saveRequest){
-        /*int amount;
-        try {
-            amount = saveRequest.getAmount();
-            if(amount <= 0) throw new BadRequestError("Amount must be an integer greater than 0.");
-        }catch (BadRequestError badRequestError) {
-            return ResponseEntity.badRequest().body(badRequestError.getMessage());
-        }
-
-        if(flightService.saveFlights(amount) == null) return ResponseEntity.badRequest().body("No flights to add. You need to add airports and flights first.");
-        return ResponseEntity.ok().body("Added " + String.valueOf(saveRequest.getAmount()) + " Flights/s");*/
         flightService.saveFlights(saveRequest.getAmount());
         return ResponseEntity.ok().body(saveRequest.getAmount());
     }
@@ -65,17 +55,6 @@ public class AdminControler {
 
     @PostMapping("/ticket")
     public ResponseEntity<?> saveTickets(@Valid @RequestBody SaveRequest saveRequest){
-        /*int amount;
-        try {
-            amount = saveRequest.getAmount();
-            if(amount <= 0) throw new Exception();
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("Wrong amount");
-        }
-
-        ticketService.saveTickets(amount);
-        return ResponseEntity.ok().body("Added " + String.valueOf(saveRequest.getAmount()) + " Ticket/s");*/
-
         ticketService.saveTickets(saveRequest.getAmount());
         return ResponseEntity.ok().body(saveRequest.getAmount());
     }
@@ -93,16 +72,6 @@ public class AdminControler {
     }
     @PostMapping("/randomUser")
     public ResponseEntity<?> saveRandomUsers(@Valid @RequestBody SaveRequest saveRequest){
-        /*int amount;
-        try {
-            amount = saveRequest.getAmount();
-            if(amount <= 0) throw new Exception();
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body("Wrong amount");
-        }
-
-        userService.saveRandomUsers(amount);
-        return ResponseEntity.ok().body("Added " + String.valueOf(saveRequest.getAmount()) + " User/s");*/
         userService.saveRandomUsers(saveRequest.getAmount());
         return ResponseEntity.ok().body(saveRequest.getAmount());
     }

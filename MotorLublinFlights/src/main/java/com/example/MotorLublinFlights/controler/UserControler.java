@@ -33,26 +33,12 @@ public class UserControler {
 
     @PostMapping("/flights")
     public ResponseEntity<?> fetchFlights(@RequestBody FlightRequest flightRequest) {
-        /*List<FlightModel> flightsList;
-        try {
-            flightsList = flightService.getFlightsBySpecificData(flightRequest);
-        } catch(BadRequestError badRequestError) {
-            return ResponseEntity.badRequest().body(badRequestError.getMessage());
-        }
-        return ResponseEntity.ok().body(flightsList);*/
         List<FlightModel> flightModelList = flightService.getFlightsBySpecificData(flightRequest);
         return  ResponseEntity.ok().body(flightModelList);
     }
 
     @PostMapping("/airports")
     public ResponseEntity<?> fetchAirports(@RequestBody AirportRequest airportRequest) {
-        /*List<Airport> airportList;
-        try {
-            airportList = airportService.getAirportsBySpecificData(airportRequest);
-        } catch(BadRequestError badRequestError) {
-            return ResponseEntity.badRequest().body(badRequestError.getMessage());
-        }
-        return ResponseEntity.ok().body(airportList);*/
         List<Airport> airportList = airportService.getAirportsBySpecificData(airportRequest);
         return ResponseEntity.ok().body(airportList);
     }

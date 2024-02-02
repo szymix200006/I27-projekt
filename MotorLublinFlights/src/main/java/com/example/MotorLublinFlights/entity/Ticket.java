@@ -1,6 +1,9 @@
 package com.example.MotorLublinFlights.entity;
 
 import com.example.MotorLublinFlights.enums.Classs;
+import com.example.MotorLublinFlights.repository.UserRepository;
+import com.example.MotorLublinFlights.service.UserService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +14,8 @@ import lombok.ToString;
 @ToString
 public class Ticket {
     @Id
-    @GeneratedValue(generator = "id_seq")
-    @SequenceGenerator(name = "id_seq", sequenceName = "id_sequence", initialValue = 10, allocationSize = 1)
-
+    @GeneratedValue(generator = "id_seq_ticket")
+    @SequenceGenerator(name = "id_seq_ticket", sequenceName = "id_sequence_ticket", initialValue = 1, allocationSize = 1)
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId", referencedColumnName = "id")

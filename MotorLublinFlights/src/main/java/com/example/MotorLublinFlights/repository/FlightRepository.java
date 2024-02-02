@@ -2,6 +2,7 @@ package com.example.MotorLublinFlights.repository;
 
 import com.example.MotorLublinFlights.entity.Flight;
 import com.example.MotorLublinFlights.request.FlightModel;
+import com.example.MotorLublinFlights.request.TicketsModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +28,13 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             @Param("departure") String departure,
             @Param("arriveTime") String arriveTime,
             @Param("departureTime") String departureTime);
+
+    @Query(value = "SELECT p.seat_count as seatCount, t.seat_number as seatNumber " +
+                    "FROM flight f" +
+                    "JOIN plane p ON f.plane_id = p.number" +
+                    "JOIN ticket t ON t.flight_id = f.id" +
+                    "WHERE flightId = f.id", nativeQuery = true)
+    List<TicketsModel> findTicketsForFlight(
+            @Param("flightId") long flightId
+    );
 }

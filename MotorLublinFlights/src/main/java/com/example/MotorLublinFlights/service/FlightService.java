@@ -3,11 +3,13 @@ package com.example.MotorLublinFlights.service;
 import com.example.MotorLublinFlights.constants.FlightConstants;
 import com.example.MotorLublinFlights.entity.Airport;
 import com.example.MotorLublinFlights.entity.Flight;
+import com.example.MotorLublinFlights.exceptions.BadRequestError;
 import com.example.MotorLublinFlights.exceptions.ObjectNotFoundException;
 import com.example.MotorLublinFlights.repository.AirportRepository;
 import com.example.MotorLublinFlights.repository.FlightRepository;
 import com.example.MotorLublinFlights.request.FlightModel;
 import com.example.MotorLublinFlights.request.FlightRequest;
+import com.example.MotorLublinFlights.request.TicketsModel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -72,5 +74,15 @@ public class FlightService {
         //if(flightModelList.isEmpty()) throw new ObjectNotFoundException("No flights found");
 
         return flightModelList;
+    }
+
+    public Flight getFlightById(long id) {
+        return flightRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Flight not found"));
+    }
+
+    public List<TicketsModel> getTicketsForFlight(long flightId) {
+        flightRepository.findById(flightId).orElseThrow(() -> new BadRequestError("Flight doesn`t exist"));
+        List<TicketsModel> tickets = flightRepository.findTicketsForFlight(flightId);
+        return tickets;
     }
 }

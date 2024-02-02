@@ -24,9 +24,8 @@ import java.util.Set;
 public class User {
     @Valid
     @Id
-    @GeneratedValue(generator = "id_seq")
-    @SequenceGenerator(name = "id_seq", sequenceName = "id_sequence", initialValue = 10, allocationSize = 1)
-
+    @GeneratedValue(generator = "id_seq_user")
+    @SequenceGenerator(name = "id_seq_user", sequenceName = "id_sequence_user", initialValue = 1, allocationSize = 1)
     private long id;
     @NotBlank(message = "Email cannot be blank")
     @NotNull(message = "Email cannot be null")

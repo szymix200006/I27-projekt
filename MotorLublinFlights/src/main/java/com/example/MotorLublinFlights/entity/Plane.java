@@ -21,8 +21,8 @@ import java.util.Set;
 public class Plane {
     @Valid
     @Id
-    @GeneratedValue(generator = "id_seq")
-    @SequenceGenerator(name = "id_seq", sequenceName = "id_sequence", initialValue = 10, allocationSize = 1)
+    @GeneratedValue(generator = "id_seq_plane")
+    @SequenceGenerator(name = "id_seq_plane", sequenceName = "id_sequence_plane", initialValue = 1, allocationSize = 1)
     private long number;
     @NotBlank(message = "Name cannot be blank")
     @NotNull(message = "Name cannot be null")

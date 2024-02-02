@@ -10,7 +10,7 @@ import useFetch from "../hooks/useFetch";
 const BrowserResults = () => {
     const location = useLocation();
     const formData = location.state;
-    const { data, isPending } = useFetch("http://192.168.1.125:8080/user/flights", formData)
+    const { data, isPending } = useFetch("http://192.168.1.146:8080/user/flights", formData)
 
     return(
         <>

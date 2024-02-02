@@ -7,6 +7,7 @@ import com.example.MotorLublinFlights.entity.Ticket;
 import com.example.MotorLublinFlights.entity.User;
 import com.example.MotorLublinFlights.request.RequestBodyList;
 import com.example.MotorLublinFlights.request.SaveRequest;
+import com.example.MotorLublinFlights.request.TicketBodyRequest;
 import com.example.MotorLublinFlights.service.AirportService;
 import com.example.MotorLublinFlights.service.PlaneService;
 import com.example.MotorLublinFlights.service.TicketService;
@@ -60,7 +61,7 @@ public class AdminControler {
     }
 
     @PostMapping("/customTicket")
-    public ResponseEntity<?> saveTicket(@Valid @RequestBody RequestBodyList<Ticket> ticketModelList) {
+    public ResponseEntity<?> saveTicket(@Valid @RequestBody RequestBodyList<TicketBodyRequest> ticketModelList) {
         List<Ticket> ticketList = ticketService.saveCustomTickets(ticketModelList.getData());
         return ResponseEntity.ok().body(ticketList.size());
     }

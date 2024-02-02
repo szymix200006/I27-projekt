@@ -35,6 +35,10 @@ public class UserService {
         return users.get((int) flightConstants.getRandomInt(users.size()));
     }
 
+    public User getUserById(long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
     public List<User> saveRandomUsers(int amount) {
         List<User> usersToAdd = new ArrayList<>();
 

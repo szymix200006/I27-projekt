@@ -19,8 +19,8 @@ import java.util.Set;
 public class Airport {
     @Valid
     @Id
-    @GeneratedValue(generator = "id_seq")
-    @SequenceGenerator(name = "id_seq", sequenceName = "id_sequence", initialValue = 10, allocationSize = 1)
+    @GeneratedValue(generator = "id_seq_airport")
+    @SequenceGenerator(name = "id_seq_airport", sequenceName = "id_sequence_airport", initialValue = 1, allocationSize = 1)
     private long id;
     @NotBlank(message = "Name cannot be blank")
     @NotNull(message = "Name cannot be null")

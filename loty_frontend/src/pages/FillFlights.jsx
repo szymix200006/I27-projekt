@@ -39,7 +39,7 @@ const FillFlights = () => {
 
     const handlePlaneForm = async() => {
         console.log({data: planeList})
-        const response = await fetch("http://192.168.1.125:8080/admin/plane",{
+        const response = await fetch("http://192.168.1.146:8080/admin/plane",{
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({data: planeList})
@@ -49,7 +49,7 @@ const FillFlights = () => {
         //useFetch("http://192.168.1.125:8080/admin/plane", planeList)
     }
     const handleAirportForm = async() => {
-        const response = await fetch("http://192.168.1.125:8080/admin/airport",{
+        const response = await fetch("http://192.168.1.146:8080/admin/airport",{
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({data: airportList})
@@ -59,7 +59,7 @@ const FillFlights = () => {
         //useFetch("http://192.168.1.125:8080/admin/airport", airportList)
     }
     const handleUserForm = async() => {
-        const response = await fetch("http://192.168.1.125:8080/admin/user",{
+        const response = await fetch("http://192.168.1.146:8080/admin/user",{
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({data: userList})

@@ -12,10 +12,10 @@ const Browser = () => {
         departureTime: ''
     });
 
-    const {data: destination} = useFetch("http://192.168.1.125:8080/user/airports",{name: formData.destination}, formData.destination);
+    const {data: destination} = useFetch("http://192.168.1.146:8080/user/airports",{name: formData.destination}, formData.destination);
     const [listDestination, setListDestination] = useState(false);
 
-    const {data: start} = useFetch("http://192.168.1.125:8080/user/airports",{name: formData.start}, formData.start);
+    const {data: start} = useFetch("http://192.168.1.146:8080/user/airports",{name: formData.start}, formData.start);
     const [listStart, setListStart] = useState(false);
 
 console.log(formData)

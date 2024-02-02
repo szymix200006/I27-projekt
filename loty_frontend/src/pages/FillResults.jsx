@@ -8,9 +8,9 @@ import useFetch from "../hooks/useFetch";
 const FillResults = () => {
     const location = useLocation();
     const adminForm = location.state;
-    const { data: flights, isPending: fPending} = useFetch("http://192.168.1.125:8080/admin/flight", {amount: adminForm.flights});
-    const { data: tickets, isPending: tPending} = useFetch("http://192.168.1.125:8080/admin/ticket", {amount: adminForm.tickets});
-    const { data: users, isPending: uPending} = useFetch("http://192.168.1.125:8080/admin/randomUser", {amount: adminForm.users});
+    const { data: flights, isPending: fPending} = useFetch("http://192.168.1.146:8080/admin/flight", {amount: adminForm.flights});
+    const { data: tickets, isPending: tPending} = useFetch("http://192.168.1.146:8080/admin/ticket", {amount: adminForm.tickets});
+    const { data: users, isPending: uPending} = useFetch("http://192.168.1.146:8080/admin/randomUser", {amount: adminForm.users});
 
     return (
         <>

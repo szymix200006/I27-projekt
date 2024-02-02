@@ -15,9 +15,8 @@ import java.util.Set;
 @AllArgsConstructor
 public class Flight {
     @Id
-    @GeneratedValue(generator = "id_seq")
-    @SequenceGenerator(name = "id_seq", sequenceName = "id_sequence", initialValue = 10, allocationSize = 1)
-
+    @GeneratedValue(generator = "id_seq_flight")
+    @SequenceGenerator(name = "id_seq_flight", sequenceName = "id_sequence_flight", initialValue = 1, allocationSize = 1)
     private long id;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "planeId", referencedColumnName = "number")

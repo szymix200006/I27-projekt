@@ -3,9 +3,11 @@ package com.example.MotorLublinFlights.service;
 import com.example.MotorLublinFlights.constants.FlightConstants;
 import com.example.MotorLublinFlights.entity.Flight;
 import com.example.MotorLublinFlights.entity.Ticket;
+import com.example.MotorLublinFlights.entity.User;
 import com.example.MotorLublinFlights.enums.Classs;
 import com.example.MotorLublinFlights.exceptions.ObjectNotFoundException;
 import com.example.MotorLublinFlights.repository.TicketRepository;
+import com.example.MotorLublinFlights.request.TicketBodyRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +46,25 @@ public class TicketService {
         return ticketRepository.saveAll(ticketsToAdd);
     }
 
-    public List<Ticket> saveCustomTickets(List<Ticket> data) {
-        List<Ticket> ticketsToAdd = ticketRepository.saveAll(data);
-        if(ticketsToAdd.isEmpty()) throw new ObjectNotFoundException("Not enought resoiurces to create ticket");
-        return ticketsToAdd;
+    public List<Ticket> saveCustomTickets(List<TicketBodyRequest> data) {
+        List<Ticket> ticketsToAdd = new ArrayList<>(); //= ticketRepository.saveAll(data);
+
+        for(TicketBodyRequest ticket : data) {
+            User user = userService.getUserById(ticket.getUserId());
+            Flight flight = flightService.getFlightById(ticket.getFlightId());
+
+            Ticket ticketToAdd = Ticket.builder()
+                    .price(ticket.getPrice())
+                    .seatNumber(ticket.getSeatNumber())
+                    .classs(ticket.getClasss())
+                    .userId(user)
+                    .flightId(flight)
+                    .build();
+
+            ticketsToAdd.add(ticketToAdd);
+        }
+
+        if(ticketsToAdd.isEmpty()) throw new ObjectNotFoundException("Not enough resources to create ticket");
+        return ticketRepository.saveAll(ticketsToAdd);
     }
 }

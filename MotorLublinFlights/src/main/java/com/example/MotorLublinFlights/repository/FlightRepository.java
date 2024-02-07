@@ -30,11 +30,14 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
             @Param("departureTime") String departureTime);
 
     @Query(value = "SELECT p.seat_count as seatCount, t.seat_number as seatNumber " +
-                    "FROM flight f" +
-                    "JOIN plane p ON f.plane_id = p.number" +
-                    "JOIN ticket t ON t.flight_id = f.id" +
-                    "WHERE flightId = f.id", nativeQuery = true)
+                    "FROM flight f " +
+                    "JOIN plane p ON f.plane_id = p.number " +
+                    "JOIN ticket t ON t.flight_id = f.id " +
+                    "WHERE :flightId = f.id", nativeQuery = true)
     List<TicketsModel> findTicketsForFlight(
             @Param("flightId") long flightId
     );
+
+    @Query(value="SELECT p.seat_count FROM flight f JOIN plane p ON f.plane_id = p.number WHERE :flightId = f.id", nativeQuery = true)
+    int findFlightSeatCount(@Param("flightId") long flightId);
 }

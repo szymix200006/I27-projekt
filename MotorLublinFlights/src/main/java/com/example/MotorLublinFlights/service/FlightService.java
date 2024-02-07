@@ -1,27 +1,19 @@
 package com.example.MotorLublinFlights.service;
 
 import com.example.MotorLublinFlights.constants.FlightConstants;
-import com.example.MotorLublinFlights.entity.Airport;
 import com.example.MotorLublinFlights.entity.Flight;
 import com.example.MotorLublinFlights.exceptions.BadRequestError;
 import com.example.MotorLublinFlights.exceptions.ObjectNotFoundException;
-import com.example.MotorLublinFlights.repository.AirportRepository;
 import com.example.MotorLublinFlights.repository.FlightRepository;
 import com.example.MotorLublinFlights.request.FlightModel;
 import com.example.MotorLublinFlights.request.FlightRequest;
 import com.example.MotorLublinFlights.request.TicketsModel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Service
@@ -80,9 +72,17 @@ public class FlightService {
         return flightRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Flight not found"));
     }
 
-    public List<TicketsModel> getTicketsForFlight(long flightId) {
+    public boolean[] getTicketsForFlight(long flightId) {
         flightRepository.findById(flightId).orElseThrow(() -> new BadRequestError("Flight doesn`t exist"));
-        List<TicketsModel> tickets = flightRepository.findTicketsForFlight(flightId);
-        return tickets;
+        List<TicketsModel> seats = flightRepository.findTicketsForFlight(flightId);
+        int seatCount = flightRepository.findFlightSeatCount(flightId);
+        boolean[] ticketsResponse = new boolean[seatCount];
+
+        for(int i = 0; i < seatCount; i++) ticketsResponse[i] = false;
+        for(TicketsModel seat : seats) {
+            int currentSeatNumber = seat.getSeatNumber();
+            ticketsResponse[currentSeatNumber] = true;
+        }
+        return ticketsResponse;
     }
 }

@@ -1,16 +1,8 @@
-import fetchData from "../logic/FetchData";
-import { useState, useEffect } from "react";
 import { v4 } from "uuid";
+import useFetch from "../hooks/useFetch";
 
-const SuggestionList = ({url, value, setInput}) => {
-    const [suggestions, setSuggestions] = useState([]);
-
-    useEffect(() => {
-        (async function() {
-            const {data} = await fetchData(url, {name: value});
-            setSuggestions(data);
-        })()
-    }, []);
+const SuggestionList = ({url, value, setInput, display}) => {
+    const {data: suggestions} = useFetch(url, {name: ''});
 
     const onSuggestionClick = (e) => {
         setInput(e.target.innerHTML);
@@ -18,12 +10,14 @@ const SuggestionList = ({url, value, setInput}) => {
 
     return (
         <>
-            {value != '' && suggestions.filter(suggestion => {
+        {display && <div className="suggestions-list-container">
+            {value != '' && suggestions?.filter(suggestion => {
                     if(suggestion.name.includes(value) && suggestion.name != value)
                     return suggestion
             }).map(suggestion => {
-                return <span key={v4()} onClick={onSuggestionClick}>{suggestion.name}</span>
+                return <span className="suggestion-list-item" key={v4()} onClick={onSuggestionClick}>{suggestion.name}</span>
             })}
+        </div>}
         </>
     )
 

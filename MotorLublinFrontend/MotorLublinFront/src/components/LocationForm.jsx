@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
-import {v4} from 'uuid';
-import FindGeolocation from "../logic/FindGeolocation";
+import { useEffect, useRef, useState } from "react";
 import ErrorContainer from "./ErrorContainer";
 import SuggestionList from "./SuggestionList";
+import useGeolocation from "../hooks/useGeolocation";
 
 const LocationForm = ({setRequestBody}) => {
+    const {city: defaultCity} = useGeolocation();
+    const [sDisplay, setSDisplay] = useState(false);
     const [formData, setFormData] = useState({
         city: ''
     }); 
     const [formErrors, setFormErrors] = useState([]);
+    const wrapperRef = useRef(null);
 
     const onLocationFormSubmit = (e) => {
         e.preventDefault();
@@ -32,38 +34,47 @@ const LocationForm = ({setRequestBody}) => {
         return errors;
     }
 
-    useEffect(() => {
-        (async function() {
-            const currentCity = await FindGeolocation();
-            setFormData({city: currentCity})
-            setRequestBody({start: currentCity})
-        })()
-    }, []);
-
     const handleChange = (e) => {
         setFormData(prevData => ({
             ...prevData,
             [e.target.name]: e.target.value
         }));
+        setSDisplay(true)
     }
 
+    const handleClickOutside = e => {
+        const {current: wrap} = wrapperRef;
+        if(wrap && !wrap.contains(e.target))
+            setSDisplay(false)
+    }
+
+    useEffect(() => {
+        setFormData({city: defaultCity})
+    }, [defaultCity]);
+
+    useEffect(() => {
+        window.addEventListener('mousedown', handleClickOutside);
+
+        return () => removeEventListener('mousedown', handleClickOutside)
+    }, []);
+
     return (
-        <div className="location-form-container">
-            <form onSubmit={onLocationFormSubmit}>
-                <label htmlFor='city'>
-                    City:
+            <form onSubmit={onLocationFormSubmit} className="location-form-container">
+                <div ref={wrapperRef} className="form-input-container">
+                    <label htmlFor='city' className="form-label">
+                        City
+                    </label>
                     <input 
                         name='city' 
-                        className='location-form-city-input' 
+                        className='form-input' 
                         value={formData.city} 
                         onChange={handleChange}
-                    />
-                </label>
-                <SuggestionList url={'http://localhost:8080/user/airports'} value={formData.city} setInput={(value) => setFormData(prevData => ({...prevData, city: value}))}/>
+                    />  
+                    <SuggestionList url={'http://localhost:8080/user/airports'} value={formData.city} setInput={(value) => setFormData(prevData => ({...prevData, city: value}))} display={sDisplay}/>
+                </div>
                 <ErrorContainer errors={formErrors}/>
-                <input type="submit" value="Search" className="location-form-submit"/>
+                <input type="submit" value="Search" className="form-submit"/>
             </form>
-        </div>
     )
 }
 

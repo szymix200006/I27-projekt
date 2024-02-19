@@ -36,13 +36,16 @@ const AirportForm = ({handler, url}) => {
     }
 
     return (
-        <div className="airport-form-container">
-            <form className="airport-form" onSubmit={onAirportFormSubmit}>
-                <label htmlFor="name">
-                    Name
-                    <input type='text' name='name' value={formData.name} onChange={handleChange} />
-                </label>
-                <input type="submit" value="Save" />
+        <div className="admin-form-container">
+            <h1>Add custom airport</h1>
+            <form onSubmit={onAirportFormSubmit}>
+                <div className="form-input-container">
+                    <label htmlFor="name" className="form-label">
+                        Name
+                    </label>
+                    <input type='text' name='name' value={formData.name} onChange={handleChange} className="form-input"/>
+                </div> 
+                <input type="submit" value="Save" className="form-submit"/>
             </form>
             <ErrorContainer errors={formErrors} />
         </div>

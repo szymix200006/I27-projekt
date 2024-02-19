@@ -2,12 +2,11 @@ package com.example.MotorLublinFlights.service;
 
 import com.example.MotorLublinFlights.constants.FlightConstants;
 import com.example.MotorLublinFlights.entity.Flight;
+import com.example.MotorLublinFlights.enums.Classs;
 import com.example.MotorLublinFlights.exceptions.BadRequestError;
 import com.example.MotorLublinFlights.exceptions.ObjectNotFoundException;
 import com.example.MotorLublinFlights.repository.FlightRepository;
-import com.example.MotorLublinFlights.request.FlightModel;
-import com.example.MotorLublinFlights.request.FlightRequest;
-import com.example.MotorLublinFlights.request.TicketsModel;
+import com.example.MotorLublinFlights.request.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,17 +71,27 @@ public class FlightService {
         return flightRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Flight not found"));
     }
 
-    public boolean[] getTicketsForFlight(long flightId) {
+    public TicketResponse getTicketsForFlight(long flightId) {
         flightRepository.findById(flightId).orElseThrow(() -> new BadRequestError("Flight doesn`t exist"));
         List<TicketsModel> seats = flightRepository.findTicketsForFlight(flightId);
+        System.out.println(flightId);
+        System.out.println(seats.size());
         int seatCount = flightRepository.findFlightSeatCount(flightId);
-        boolean[] ticketsResponse = new boolean[seatCount];
+        SeatBody[] ticketsResponse = new SeatBody[seatCount];
 
-        for(int i = 0; i < seatCount; i++) ticketsResponse[i] = false;
+        for(int i = 0; i < seatCount; i++) {
+            Classs ticketClass = i < 42 ? Classs.FIRST : i < 84 ? Classs.BUSINESS : Classs.ECONOMY;
+            int price = ticketClass == Classs.ECONOMY ? 100 : ticketClass == Classs.BUSINESS ? 500 : 1000;
+            ticketsResponse[i] = new SeatBody(false, i, ticketClass, price);
+        }
+
         for(TicketsModel seat : seats) {
             int currentSeatNumber = seat.getSeatNumber();
-            ticketsResponse[currentSeatNumber] = true;
+            ticketsResponse[currentSeatNumber].setTaken(true);
         }
-        return ticketsResponse;
+
+        long planeId = flightRepository.getPlaneForFlight(flightId);
+
+        return new TicketResponse(planeId ,ticketsResponse);
     }
 }

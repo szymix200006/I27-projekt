@@ -1,31 +1,25 @@
 import { useEffect, useState } from "react";
-import fetchData from "../logic/FetchData";
 import { useLocation, useNavigate } from "react-router";
 import { Audio } from "react-loader-spinner";
 import Seat from "../components/Seat";
-import { v4 } from "uuid";
+import useFetch from "../hooks/useFetch";
+import Cessena from "../assets/Cessena.png";
+import Airbus from "../assets/Airbus.png";
+import Boeing from "../assets/Boeing.png";
+import { Toaster, toast } from 'sonner'
 
 const Seats = () => {
-    const [seats, setSeats] = useState([]);
-    const [reservations, setReservations] = useState([]);
-    const [pending, setPending] = useState(true);
     const flightId = useLocation().state;
     const navigate = useNavigate();
+    const [reservations, setReservations] = useState([]);
+    const {data: flightSeats, isPending: pending} = useFetch('http://localhost:8080/user/getTickets', flightId);
 
-    useEffect(() => {
-        (async function() {
-            const {data, pending} = await fetchData('http://localhost:8080/user/getTickets', flightId);
-            setSeats(data)
-            setPending(pending)
-        })()
-    }, []);
-
-    const addReservation = (availibility, id) => {
+    const addReservation = (availibility, id, seatClass, price) => {
         if(!availibility) {
-            if(!reservations.includes(id)) setReservations(prevReservations => ([...prevReservations, {
+            if(!reservations.find(reservation => reservation.seatNumber == id)) setReservations(prevReservations => ([...prevReservations, {
                 userId: 20, 
-                price: 100,
-                classs:'ECONOMY', 
+                price: price,
+                classs: seatClass,
                 flightId: flightId.flightId,
                 seatNumber: id
             }]));
@@ -33,13 +27,14 @@ const Seats = () => {
         }
     }
 
-    const saveNewTickets = async () => {
+    const saveNewTickets = () => {
         if(reservations.length){
-            const {data} = await fetchData('http://localhost:8080/user/addTickets', {data: reservations});
-            navigate('/checkout', {state: {ticketsAdded: data}})
+            navigate('/checkout', {state: {reservations: reservations}})
+        } else {
+            toast.error("You need to save at least one seat.");
         }
     }
-
+    console.log(flightSeats)
     return (
         <div className="seats-container">
             {pending ? 
@@ -51,15 +46,23 @@ const Seats = () => {
                     ariaLabel="loading"
                     wrapperStyle
                     wrapperClass
-                /> : seats.map((seat, id) => {
-                return <Seat 
-                            key={v4()} 
-                            id={id} 
-                            availibility={seat} 
-                            setReservation={addReservation}
-                        />
-            })}
-            <button className="seats-save-button" onClick={saveNewTickets}>Save seats</button>
+                /> : <>
+                <img src={flightSeats.planeId == 10 ? Cessena : flightSeats.planeId == 11 ? Airbus : Boeing} alt="plane" className="seats-plane-image"/>
+                <div className={`seats-container-rows ${flightSeats.seats.length <= 12 ? 'small' : flightSeats.seats.length <= 360 ? 'medium' : 'big'}`}>
+                {
+                        flightSeats.seats.map((seat, id) => {
+                        return <Seat 
+                        key={id} 
+                        id={seat.number} 
+                        availibility={seat.taken} 
+                        setReservation={addReservation}
+                        seatClass={seat.seatClass}
+                        price={seat.price}
+                        corridor={id%7 == 1 || id%7 == 4}
+                    />
+                     })}</div>
+            <button className="form-submit" onClick={saveNewTickets}>Save seats</button>
+            <Toaster richColors  position="top-right"/></>}
         </div>
     )
 }

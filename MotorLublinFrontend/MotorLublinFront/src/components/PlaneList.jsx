@@ -1,31 +1,18 @@
-import { useEffect, useState } from "react";
-import fetchData from "../logic/FetchData";
 import { Audio } from 'react-loader-spinner'
 import PlaneRow from "./PlaneRow";
 import {v4} from 'uuid';
 import { Toaster, toast } from 'sonner'
+import useFetch from "../hooks/useFetch";
 
 const PlaneList = ({params}) => {
-    const [planes, setPlanes] = useState([]);
-    const [pending, setPending] = useState(true);
+    const {data: planes, isPending, error} = useFetch('http://localhost:8080/user/flights', params, true);
 
-    useEffect(() => {
-        (async function() {
-            try{
-                const {data, pending} = await fetchData('http://localhost:8080/user/flights', params)
-                setPlanes(data)
-                setPending(pending)
-            }catch(error){
-                setPlanes([])
-                toast.error(`Failed to fetch: ${error.message}`)
-            }
-        })()
-    }, [params]);
+    if(error) toast.error(error)
+
 
     return (
         <div className="plane-list">
-            <h1 className="plane-list-header">Flights Found</h1>
-            {pending ? 
+            {isPending ? 
                 <Audio
                     height="80"
                     width="80"
@@ -35,10 +22,10 @@ const PlaneList = ({params}) => {
                     wrapperStyle
                     wrapperClass
                 /> :
-                <table className="plane-list-table">
+                <div className="plane-list-table">
                     {planes.length ? 
-                        <tbody>
-                            {planes.map(plane => {
+                        
+                            planes.map(plane => {
                                 return <PlaneRow 
                                     id={plane.id}
                                     arrive={plane.arrive}
@@ -47,13 +34,13 @@ const PlaneList = ({params}) => {
                                     dateDeparture={plane.departureTime}
                                     key={v4()}
                                 />
-                            })}
-                        </tbody> :
-                        <span>No flights found...</span>
+                            })
+                         :
+                        <span className="plane-list-not-found">No flights found...</span>
                     }
-                </table>
+                </div>
             }
-            <Toaster richColors  position="top-right"/>
+            <Toaster richColors position="top-right"/>
         </div>
     )
 }

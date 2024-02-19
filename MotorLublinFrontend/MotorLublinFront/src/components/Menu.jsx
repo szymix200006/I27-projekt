@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './Header.jsx';
 import MenuButton from './MenuButton.jsx';
 import {v4} from 'uuid';
@@ -11,7 +11,13 @@ const Menu = ({paths}) => {
         else setTransparent(true);
     }
 
-    window.addEventListener('scroll', setTransparentBackground);
+    useEffect(() => {
+        window.addEventListener('scroll', setTransparentBackground);
+
+        return () => {
+            window.removeEventListener('scroll', setTransparentBackground);
+        }
+    }, []);
 
     return (
         <div className={transparent ? 'menu-container transparent' : 'menu-container'}>

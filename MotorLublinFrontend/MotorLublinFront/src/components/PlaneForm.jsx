@@ -45,21 +45,29 @@ const PlaneForm = ({handler, url}) => {
     }
 
     return (
-        <div className="plane-form-container">
-            <form className="plane-form" onSubmit={onPlaneFormSubmit}>
-                <label htmlFor="model">
+        <div className="admin-form-container">
+            <form onSubmit={onPlaneFormSubmit}>
+            <h1>Add custom plane</h1>
+            <div className="form-input-container">
+                <label htmlFor="model" className="form-label">
                     Model
-                    <input type="text" name="model" value={formData.model} onChange={handleChange}/>
-                </label>
-                <label htmlFor="brand">
+                    </label>
+                    <input className="form-input" type="text" name="model" value={formData.model} onChange={handleChange}/>
+                </div>
+                    <div className="form-input-container">
+                <label htmlFor="brand" className="form-label">
                     Brand
-                    <input type="text" name="brand" value={formData.brand} onChange={handleChange}/>
-                </label>
-                <label htmlFor="seatCount">
+                    </label>
+                    
+                    <input className="form-input" type="text" name="brand" value={formData.brand} onChange={handleChange}/>
+                    </div>
+                    <div className="form-input-container">
+                <label htmlFor="seatCount" className="form-label">
                     Seat count
-                    <input type="text" name="seatCount" value={formData.seatCount} onChange={handleChange}/>
-                </label>
-                <input type="submit" value="Save" />
+                    </label>
+                    <input className="form-input" type="text" name="seatCount" value={formData.seatCount} onChange={handleChange}/>
+                    </div>
+                <input type="submit" value="Save" className="form-submit"/>
             </form>
             <ErrorContainer errors={formErrors} />
         </div>

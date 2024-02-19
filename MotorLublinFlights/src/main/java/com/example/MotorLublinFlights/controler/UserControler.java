@@ -49,7 +49,7 @@ public class UserControler {
 
     @PostMapping("/getTickets")
     public ResponseEntity<?> getTickets(@Valid @RequestBody TicketRequest ticketRequest) {
-        boolean[] tickets = flightService.getTicketsForFlight(ticketRequest.getFlightId());
+        TicketResponse tickets = flightService.getTicketsForFlight(ticketRequest.getFlightId());
         return ResponseEntity.ok().body(tickets);
     }
     /*@GetMapping("/tickets")

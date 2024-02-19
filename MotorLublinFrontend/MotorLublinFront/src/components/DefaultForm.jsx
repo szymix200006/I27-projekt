@@ -39,13 +39,15 @@ const DefaultForm = ({handler, name, url}) => {
         <div className="default-form-container">
             <h1>{name}</h1>
             <form onSubmit={onDefaultFormSubmit}>
-                <label htmlFor="amount">
-                    Amount
-                    <input type="number" name="amount" value={formData.amount} onChange={handleChange} />
-                </label>
-                <input type="submit" value="Save" className="default-form-submit-button" />
+                <div className="form-input-container">
+                    <label htmlFor="amount" className="form-label">
+                        Amount
+                    </label>
+                    <input className="form-input" type="number" name="amount" value={formData.amount} onChange={handleChange} />
+                </div>
+                <ErrorContainer errors={formErrors}/>
+                <input type="submit" value="Save" className="form-submit" />
             </form>
-            <ErrorContainer errors={formErrors}/>
         </div>
     )
 }

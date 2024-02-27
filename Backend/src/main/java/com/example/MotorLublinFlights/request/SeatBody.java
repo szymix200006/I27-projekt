@@ -1,5 +1,7 @@
 package com.example.MotorLublinFlights.request;
 
+import com.example.MotorLublinFlights.entity.Flight;
+import com.example.MotorLublinFlights.entity.Ticket;
 import com.example.MotorLublinFlights.enums.Classs;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,4 +15,5 @@ public class SeatBody {
     private long number;
     private Classs seatClass;
     private int price;
+    private Flight flight;
 }

@@ -139,7 +139,7 @@
   color: white;
   border: none;
   border-radius: 5px;
-  margin-top: 5%;
+  margin: 5% 10px;
   font-size: 1em;
   font-weight: 100;
   transition: .5s;
@@ -300,7 +300,7 @@
 
 .checkout-container {
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   background-color: #22303c;
   display: flex;
   flex-direction: column;
@@ -383,10 +383,6 @@
   background-color: green;
 }
 
-.corridor {
-  margin-right: 20px;
-}
-
 .first {
   background-color: gold;
 }
@@ -409,7 +405,7 @@
 
 .seats-container-rows {
   display: grid;
-  grid-gap: 2px;
+  grid-gap: 2px 25px;
 }
 
 .seats-container-rows.small {
@@ -426,6 +422,8 @@
   grid-template-columns: repeat(7, 1fr);
   margin-top: 5vh;
 }
+
+
 
 
 

@@ -72,7 +72,7 @@ public class FlightService {
     }
 
     public TicketResponse getTicketsForFlight(long flightId) {
-        flightRepository.findById(flightId).orElseThrow(() -> new BadRequestError("Flight doesn`t exist"));
+        Flight flight = flightRepository.findById(flightId).orElseThrow(() -> new BadRequestError("Flight doesn`t exist"));
         List<TicketsModel> seats = flightRepository.findTicketsForFlight(flightId);
         System.out.println(flightId);
         System.out.println(seats.size());
@@ -82,7 +82,7 @@ public class FlightService {
         for(int i = 0; i < seatCount; i++) {
             Classs ticketClass = i < 42 ? Classs.FIRST : i < 84 ? Classs.BUSINESS : Classs.ECONOMY;
             int price = ticketClass == Classs.ECONOMY ? 100 : ticketClass == Classs.BUSINESS ? 500 : 1000;
-            ticketsResponse[i] = new SeatBody(false, i, ticketClass, price);
+            ticketsResponse[i] = new SeatBody(false, i, ticketClass, price, flight);
         }
 
         for(TicketsModel seat : seats) {

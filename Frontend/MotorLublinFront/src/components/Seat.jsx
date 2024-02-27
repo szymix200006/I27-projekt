@@ -1,11 +1,11 @@
 import { useState } from "react"
 
-const Seat = ({setReservation, id, availibility, seatClass, price, corridor}) => {
+const Seat = ({setReservation, id, availibility, seatClass, price, corridor, flight}) => {
     const [marked, setMarked] = useState(false);
     
     const onSeatClick = () => {
         setMarked(!marked);
-        setReservation(availibility, id, seatClass, price);
+        setReservation(availibility, id, seatClass, price, flight);
     }
 
     return (

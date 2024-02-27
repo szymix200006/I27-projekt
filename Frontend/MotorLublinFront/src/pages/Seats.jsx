@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Audio } from "react-loader-spinner";
 import Seat from "../components/Seat";
@@ -14,14 +14,15 @@ const Seats = () => {
     const [reservations, setReservations] = useState([]);
     const {data: flightSeats, isPending: pending} = useFetch('http://localhost:8080/user/getTickets', flightId);
 
-    const addReservation = (availibility, id, seatClass, price) => {
+    const addReservation = (availibility, id, seatClass, price, flight) => {
         if(!availibility) {
             if(!reservations.find(reservation => reservation.seatNumber == id)) setReservations(prevReservations => ([...prevReservations, {
                 userId: 20, 
                 price: price,
                 classs: seatClass,
                 flightId: flightId.flightId,
-                seatNumber: id
+                seatNumber: id,
+                flight: flight
             }]));
             else setReservations(prevReservations => (prevReservations.filter(reservation => reservation.seatNumber != id)))
         }
@@ -34,7 +35,7 @@ const Seats = () => {
             toast.error("You need to save at least one seat.");
         }
     }
-    console.log(flightSeats)
+
     return (
         <div className="seats-container">
             {pending ? 
@@ -58,6 +59,7 @@ const Seats = () => {
                         setReservation={addReservation}
                         seatClass={seat.seatClass}
                         price={seat.price}
+                        flight={seat.flight}
                         corridor={id%7 == 1 || id%7 == 4}
                     />
                      })}</div>
